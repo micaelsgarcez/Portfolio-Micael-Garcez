@@ -1,10 +1,10 @@
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { FiMenu } from 'react-icons/fi'
 
 export default function PortfolioLayout({ children }) {
   const router = useRouter()
-  console.log('t')
   const menuLinks = [
     {
       href: '/',
@@ -19,8 +19,18 @@ export default function PortfolioLayout({ children }) {
       label: 'Contato'
     }
   ]
+
+  const [barStep, setbarStep] = useState(1)
+
+  useEffect(() => {
+    menuLinks.forEach((item, index) => {
+      if (router.asPath === item.href) {
+        setbarStep(index + 1)
+      }
+    })
+  }, [router])
   return (
-    <div className='flex flex-row container max-w-screen-xl mx-auto'>
+    <div className='flex flex-row container max-w-screen-xl mx-auto px-4'>
       <aside className='flex-none w-48 pt-9'>
         <FiMenu
           size={24}
@@ -47,32 +57,19 @@ export default function PortfolioLayout({ children }) {
           ))}
         </ul>
 
-        <div>
-          <div className='bg-white rounded-lg w-2 shadow block m-auto'>
-            <div className='w-full h-72 bg-[#C8C1C1] rounded-full mt-3'>
-              <div className='h-1/3 w-full bg-[#A7A7A7] rounded-full'></div>
+        <div className='mt-20 ml-5'>
+          <div className='bg-white rounded-lg w-1 shadow block m-2 mb-10'>
+            <div className='w-full h-72 bg-[#C8C1C1] rounded-full mt-3 bg-opacity-40'>
+              <div
+                className='w-full transition-all duration-300 bg-[#A7A7A7] rounded-full'
+                style={{ height: `${barStep * 33.33}%` }}
+              ></div>
             </div>
           </div>
-          <p>1-3</p>
+          <p>{barStep}-3</p>
         </div>
       </aside>
-      <main className='flex-1'>{children}</main>
-      <aside className='flex-none w-24 flex items-center justify-center'>
-        <ul>
-          <li>
-            <a href='#'>Linkedin</a>
-          </li>
-          <li>
-            <a href='#'>Github</a>
-          </li>
-          <li>
-            <a href='#'>Instagram</a>
-          </li>
-          <li>
-            <a href='#'>Youtube</a>
-          </li>
-        </ul>
-      </aside>
+      <main className='flex-1 px-4'>{children}</main>
     </div>
   )
 }
