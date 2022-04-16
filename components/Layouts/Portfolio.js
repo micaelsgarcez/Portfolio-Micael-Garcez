@@ -4,7 +4,7 @@ import { FiMenu } from 'react-icons/fi'
 
 export default function PortfolioLayout({ children }) {
   const router = useRouter()
-
+  console.log('t')
   const menuLinks = [
     {
       href: '/',
@@ -15,7 +15,7 @@ export default function PortfolioLayout({ children }) {
       label: 'Portfólio'
     },
     {
-      href: '/contato',
+      href: '/contact',
       label: 'Contato'
     }
   ]
@@ -33,7 +33,13 @@ export default function PortfolioLayout({ children }) {
           {menuLinks.map((item) => (
             <li key={item.href}>
               <Link href={item.href}>
-                <a className='uppercase text-md underline underline-offset-2 mb-9 block'>
+                <a
+                  className={`uppercase text-md mb-9 block ${
+                    router.asPath === item.href
+                      ? 'underline underline-offset-2'
+                      : ''
+                  }`}
+                >
                   {item.label}
                 </a>
               </Link>
